@@ -129,6 +129,8 @@ public actor LLMCore {
         let initialCount = tokens.count
         guard maxTokenCount > initialCount else { return false }
         
+        llama_memory_seq_rm(llama_get_memory(context), 0, -1, -1)
+        
         clearBatch()
         for (i, token) in tokens.enumerated() {
             addToBatch(token: token, pos: Int32(i), isLogit: i == initialCount - 1)
